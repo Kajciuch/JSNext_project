@@ -4,4 +4,4 @@
 sem. V, 2025/26
 
 # Next js
--
+- [https://nextlab21310.netlify.app/]
