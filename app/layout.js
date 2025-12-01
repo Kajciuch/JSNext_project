@@ -18,9 +18,10 @@ export default function RootLayout({ children }) {
         <MainHeaderBackground />
 
         <MainHeader />
-
-        <main>
+        
         <ImageSlideshow />
+        <main>
+        
 
           {children}
         </main>
