@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[functions]
+  # To jest kluczowe: zmusza Netlify do dołączenia pliku bazy danych
+  included_files = ["meals.db"]
