@@ -1,17 +1,15 @@
 import Image from 'next/image';
-import { getMeal } from '@/lib/meals';
-import { getMeal } from '@/lib/meals';
+import { getMeal } from '@/lib/meals'; // Zostaw tylko jedną taką linię!
 import { notFound } from 'next/navigation';
-
+import classes from './page.module.css';
 
 export default async function MealDetailsPage({ params }) {
- 
+  // Pamiętaj o await dla params, bo używasz Next.js 16!
   const { mealSlug } = await params; 
-  
   const meal = getMeal(mealSlug);
 
   if (!meal) {
-    notFound(); 
+    notFound();
   }
 
   return (
