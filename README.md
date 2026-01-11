@@ -1,1 +1,1 @@
-Link do deploy: [https://nextjslab7.netlify.app/]
+Link do deploy: [https://nextlab21310.netlify.app/]
