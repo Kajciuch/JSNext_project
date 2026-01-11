@@ -1,14 +1,23 @@
 .header {
-  gap: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   margin: 3rem auto 5rem auto;
   width: 90%;
-  max-width: 75rem;
+  max-width: 60rem;
   color: #ddd6cb;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
+  text-align: center;
 }
 
 .header h1 {
   font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.header p {
+  margin: 0;
 }
 
 .highlight {
@@ -18,19 +27,28 @@
   -webkit-text-fill-color: transparent;
 }
 
-.header p {
-  margin: 0;
+.cta {
+  margin-top: 1rem;
 }
 
 .cta a {
   display: inline-block;
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   background: linear-gradient(90deg, #f9572a, #ff9b05);
   color: #ffffff;
   font-weight: bold;
   text-decoration: none;
+  box-shadow: 0 0 15px rgba(249, 87, 42, 0.4);
+}
+
+.cta a:hover,
+.cta a:active {
+  background: linear-gradient(90deg, #fc5527, #ffbc50);
+}
+
+.main {
+  min-height: 30rem;
 }
 
 .loading {

@@ -1,6 +1,5 @@
 'use client';
 
-
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
@@ -42,6 +41,8 @@ export default function ImageSlideshow() {
         <Image
           key={index}
           src={image.image}
+          fill
+          sizes="(min-width: 1200px) 40rem, (min-width: 768px) 60vw, 90vw"
           className={index === currentImageIndex ? classes.active : ''}
           alt={image.alt}
         />

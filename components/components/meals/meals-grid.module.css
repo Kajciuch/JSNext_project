@@ -8,3 +8,16 @@
   list-style: none;
   padding: 0;
 }
+
+.meals li {
+  height: 100%;
+}
+
+.empty {
+  width: 90%;
+  max-width: 40rem;
+  margin: 2rem auto;
+  text-align: center;
+  color: #ddd6cb;
+  font-size: 1.25rem;
+}

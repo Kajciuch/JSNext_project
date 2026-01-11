@@ -1,12 +1,4 @@
-export default function CommunityPage() {
-    return (
-      <main>
-        <h1 style={{ color: 'white', textAlign: 'center' }}>Społeczność</h1>
-        <p style={{ color: 'white', textAlign: 'center' }}>Witamy w społeczności miłośników jedzenia.</p>
-      </main>
-    );
-  }
-  import Image from 'next/image';
+import Image from 'next/image';
 
 import mealIcon from '@/assets/icons/meal.png';
 import communityIcon from '@/assets/icons/community.png';
