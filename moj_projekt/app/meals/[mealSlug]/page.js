@@ -1,17 +1,17 @@
 import Image from 'next/image';
-import { getMeal } from '@/lib/meals';
 import { notFound } from 'next/navigation';
+
+import { getMeal } from '@/lib/meals';
 import classes from './page.module.css';
 
 export default async function MealDetailsPage({ params }) {
- 
-  const { mealSlug } = await params; 
-  
-  const meal = getMeal(mealSlug);
+  const meal = await getMeal(params.mealSlug);
 
   if (!meal) {
-    notFound(); [cite_start]
+    notFound();
   }
+
+  const instructionsHtml = (meal.instructions || '').replace(/\n/g, '<br />');
 
   return (
     <>
@@ -28,10 +28,10 @@ export default async function MealDetailsPage({ params }) {
         </div>
       </header>
       <main>
-        <p 
-          className={classes.instructions} 
-          dangerouslySetInnerHTML={{ 
-            __html: meal.instructions.replace(/\n/g, '<br />') 
+        <p
+          className={classes.instructions}
+          dangerouslySetInnerHTML={{
+            __html: instructionsHtml,
           }}
         ></p>
       </main>

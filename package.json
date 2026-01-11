@@ -1,22 +1,17 @@
 {
-  "name": "LAB 11 - foodies",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
   "dependencies": {
-    "better-sqlite3": "^11.x.x",
-    "next": "^15.1.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@netlify/neon": "^0.1.0",
+    "better-sqlite3": "^12.5.0",
+    "drizzle-orm": "^0.45.1",
+    "next": "^16.0.7",
+    "pg": "^8.16.3"
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "netlify dev:exec drizzle-kit migrate",
+    "db:studio": "netlify dev:exec drizzle-kit studio"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.7.2",
-    "eslint": "^9.16.0",
-    "eslint-config-next": "^15.0.4"
+    "drizzle-kit": "^0.31.8"
   }
 }

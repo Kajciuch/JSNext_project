@@ -1,5 +1,26 @@
-const sql = require('better-sqlite3');
-const db = sql('meals.db');
+const { Client } = require('pg');
+require('dotenv').config();
+
+const POSTGRES_URL =
+   process.env.NETLIFY_DB_CONNECTION_STRING ||
+   process.env.NETLIFY_DATABASE_URL ||
+   process.env.NETLIFY_DATABASE_URL_UNPOOLED ||
+   process.env.DATABASE_URL ||
+   process.env.NEON_DATABASE_URL;
+
+async function withPgClient(fn) {
+   if (!POSTGRES_URL) {
+      console.warn('No Postgres connection string set; skipping Postgres init');
+      return;
+   }
+   const client = new Client({ connectionString: POSTGRES_URL });
+   await client.connect();
+   try {
+      await fn(client);
+   } finally {
+      await client.end();
+   }
+}
 
 const dummyMeals = [
   {
@@ -132,11 +153,11 @@ const dummyMeals = [
          Coat each cutlet in flour, dip in beaten eggs, and then in breadcrumbs.
 
       3. Fry the schnitzel:
-      Heat oil in a pan and fry each schnitzel until golden brown on both sides.
+         Heat oil in a pan and fry each schnitzel until golden brown on both sides.
 
       4. Serve:
-      Serve hot with a slice of lemon and a side of potato salad or greens.
- `,
+         Serve hot with a slice of lemon and a side of potato salad or greens.
+    `,
     creator: 'Franz Huber',
     creator_email: 'franzhuber@example.com',
   },
@@ -148,14 +169,14 @@ const dummyMeals = [
       'A light and refreshing salad with ripe tomatoes, fresh basil, and a tangy vinaigrette.',
     instructions: `
       1. Prepare the tomatoes:
-        Slice fresh tomatoes and arrange them on a plate.
-    
+         Slice fresh tomatoes and arrange them on a plate.
+
       2. Add herbs and seasoning:
          Sprinkle chopped basil, salt, and pepper over the tomatoes.
-    
+
       3. Dress the salad:
          Drizzle with olive oil and balsamic vinegar.
-    
+
       4. Serve:
          Enjoy this simple, flavorful salad as a side dish or light meal.
     `,
@@ -164,36 +185,46 @@ const dummyMeals = [
   },
 ];
 
-db.prepare(`
-   CREATE TABLE IF NOT EXISTS meals (
-       id INTEGER PRIMARY KEY AUTOINCREMENT,
-       slug TEXT NOT NULL UNIQUE,
-       title TEXT NOT NULL,
-       image TEXT NOT NULL,
-       summary TEXT NOT NULL,
-       instructions TEXT NOT NULL,
-       creator TEXT NOT NULL,
-       creator_email TEXT NOT NULL
-    )
-`).run();
-
 async function initData() {
-  const stmt = db.prepare(`
-      INSERT INTO meals VALUES (
-         null,
-         @slug,
-         @title,
-         @image,
-         @summary,
-         @instructions,
-         @creator,
-         @creator_email
-      )
-   `);
+  // Create table and insert dummyMeals into Postgres
+  await withPgClient(async (client) => {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS meals (
+        id SERIAL PRIMARY KEY,
+        slug TEXT NOT NULL UNIQUE,
+        title TEXT NOT NULL,
+        image TEXT NOT NULL,
+        summary TEXT NOT NULL,
+        instructions TEXT NOT NULL,
+        creator TEXT NOT NULL,
+        creator_email TEXT NOT NULL
+      );
+    `);
 
-  for (const meal of dummyMeals) {
-    stmt.run(meal);
-  }
+    const pgInsert = `
+      INSERT INTO meals (slug, title, image, summary, instructions, creator, creator_email)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      ON CONFLICT (slug) DO NOTHING
+    `;
+
+    for (const meal of dummyMeals) {
+      try {
+        await client.query(pgInsert, [
+          meal.slug,
+          meal.title,
+          meal.image,
+          meal.summary,
+          meal.instructions,
+          meal.creator,
+          meal.creator_email,
+        ]);
+      } catch (err) {
+        console.error('Insert error for', meal.slug, err?.message || err);
+      }
+    }
+  });
 }
 
-initData();
+initData().catch((err) => {
+  console.error('initData failed:', err?.message || err);
+});
