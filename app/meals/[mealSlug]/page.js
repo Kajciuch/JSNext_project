@@ -10,6 +10,7 @@ export default async function MealDetailsPage({ params }) {
 
   if (!meal) {
     notFound(); 
+  }
 
   return (
     <>
@@ -35,5 +36,4 @@ export default async function MealDetailsPage({ params }) {
       </main>
     </>
   );
-}
 }
