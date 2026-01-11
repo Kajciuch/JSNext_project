@@ -5,11 +5,11 @@ import classes from './page.module.css';
 
 export default async function MealDetailsPage({ params }) {
   const { mealSlug } = await params; 
+  
   const meal = getMeal(mealSlug);
 
   if (!meal) {
-    notFound();
-  }
+    notFound(); 
 
   return (
     <>
