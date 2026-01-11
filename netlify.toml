@@ -3,5 +3,6 @@
   publish = ".next"
 
 [functions]
-  # To jest kluczowe: zmusza Netlify do dołączenia pliku bazy danych
+  
+  external_node_modules = ["better-sqlite3"]
   included_files = ["meals.db"]
