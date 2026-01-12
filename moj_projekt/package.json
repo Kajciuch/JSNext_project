@@ -10,12 +10,11 @@
     "init-db": "node initdb.js"
   },
   "dependencies": {
-    
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "dotenv": "^16.6.1",
     "next": "^15.0.4",
     "pg": "^8.11.3",
-    "dotenv": "^16.4.5"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.7.2",
