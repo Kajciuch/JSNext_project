@@ -1,4 +1,4 @@
-const { Client } = require('pg');
+const { Client } = require('ob');
 require('dotenv').config();
 
 const POSTGRES_URL =
